@@ -3,12 +3,13 @@ import {RouteNames, RoutePaths} from 'src/constants/routes';
 import {ref} from 'vue';
 import {useRoute} from 'vue-router'
 import {AmthauerStrings} from 'src/components/amthauer/constants/AmthauerStrings';
+import {CommonStrings} from 'src/constants/CommonStrings';
 
 
 const links = ref([
   { icon: 'dashboard', path: RoutePaths.dashboard, label: RouteNames.dashboard },
   { icon: 'o_psychology', path: RoutePaths.amthauerMain, label: AmthauerStrings.amthauerTest },
-  { icon: 'logout', path: RoutePaths.logout, label: RouteNames.logout },
+  { icon: 'logout', path: RoutePaths.logout, label: CommonStrings.logout },
 ]);
 
 const route = useRoute()

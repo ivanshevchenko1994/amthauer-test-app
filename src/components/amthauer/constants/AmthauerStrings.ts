@@ -1,6 +1,7 @@
 export enum AmthauerStrings {
   // Current Status
-  amthauerTest = 'Amthauer Test',
-  startTest = 'Start test',
-  participantCreate = 'Participant create',
+  amthauerTest = 'Тест Амтхауэра',
+  startTest = 'Начать тест',
+  participantCreate = 'Добавить испытуемого',
+  dateOfBirth = 'Дата рождения',
 }

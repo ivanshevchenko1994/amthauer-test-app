@@ -1,8 +1,10 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import { useAuthStore } from 'src/stores/auth-store';
+import {Notify} from "quasar";
 
 const api = axios.create({
   baseURL: 'https://backend-amthauer.webware-kassel.de',
+  // baseURL: 'http://localhost:8078',
   timeout: 10000,
 });
 
@@ -31,6 +33,10 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && error.config) {
       console.log('--------------CONFIG------------------')
+      Notify.create({
+        color: 'negative',
+        message: 'Неправильный Email или Пароль'
+      });
       const originalRequest: InternalAxiosRequestConfig = error.config;
 
       if (!isRefreshing) {

@@ -4,7 +4,7 @@
 
 <template>
   <q-page class="q-pa-md q-col-gutter-md">
-    <div>TEST</div>
+    <div>Страница в разработке</div>
   </q-page>
 </template>
 

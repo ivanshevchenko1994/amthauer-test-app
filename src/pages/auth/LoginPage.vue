@@ -34,6 +34,7 @@ async function login() {
     console.log(typeof (error));
     console.log(error);
     console.log(error.name);
+    console.log('***********************');
     errorMessage.value = error.message;
   }
 }
@@ -55,14 +56,14 @@ async function login() {
 
       <q-card-section>
         <q-input v-model="email" class="q-mb-md" label="Email" outlined required/>
-        <q-input v-model="password" label="Password" type="password" outlined required/>
+        <q-input v-model="password" label="Пароль" type="password" outlined required/>
 
-        <q-btn class="full-width q-mt-md" color="primary" label="Login" @click="login"/>
+        <q-btn class="full-width q-mt-md" color="primary" label="Вход" @click="login"/>
 
         <!-- Display error message if it exists -->
-        <q-form-helpers v-if="errorMessage" class="q-mt-md" color="negative">
+        <div v-if="errorMessage" class="q-mt-md" color="negative">
           <div>{{ errorMessage }}</div>
-        </q-form-helpers>
+        </div>
       </q-card-section>
     </q-card>
   </q-page>
