@@ -42,7 +42,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: MainLayout,
     children: [
       {
-        path: RouteNames.logout,
+        path: RoutePaths.logout,
         component: () => import('src/pages/auth/LogoutPage.vue'),
         meta: {
           requiresAuth: true,
@@ -62,6 +62,20 @@ export const routes: Array<RouteRecordRaw> = [
           requiresAuth: true,
         },
       },
+      {
+        path: RoutePaths.testing,
+        component: () => import('src/pages/amthauer/TestingPage.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: RoutePaths.participantCreate,
+        component: () => import('src/pages/amthauer/ParticipantPage.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ],
   },
   {
@@ -72,20 +86,6 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: RoutePaths.amthauerTest,
         component: () => import('src/pages/amthauer/AmthauerTestPage.vue'),
-        meta: {
-          requiresAuth: true,
-        },
-      },
-    ],
-  },
-  {
-    path: RoutePaths.participantCreate,
-    name: RouteNames.participantCreate,
-    component: MainLayout,
-    children: [
-      {
-        path: RoutePaths.participantCreate,
-        component: () => import('src/pages/amthauer/ParticipantPage.vue'),
         meta: {
           requiresAuth: true,
         },

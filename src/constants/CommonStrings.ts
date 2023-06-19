@@ -1,12 +1,13 @@
 export enum CommonStrings {
   delete = 'Delete',
   cancel = 'Cancel',
-  close = 'Close',
+  close = 'Закрыть',
   save = 'Save',
   ok = 'Ok',
+  submit = 'Подтвердить',
   title = 'Title',
   description = 'Description',
-  color = 'Color',
+  color = 'Цвет',
   country = 'Country',
   city = 'City',
   timezone = 'Timezone',
@@ -16,11 +17,5 @@ export enum CommonStrings {
   month = 'Month',
   year = 'Year',
   settings = 'Settings',
-
-  // Units
-  kwh = 'kW/h',
-  kw = 'kW',
-  w = 'W',
-
-  percent = '%',
+  logout = 'Выход'
 }

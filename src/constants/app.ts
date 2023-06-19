@@ -1,6 +1,6 @@
 // App constants
-export const BRAND_NAME = 'Amthauer Test';
-export const LOGIN = 'Login';
+export const BRAND_NAME = 'Тест Амтхауэра';
+export const LOGIN = 'Вход';
 
 export enum DialogTypes {
   INFO = 'info',

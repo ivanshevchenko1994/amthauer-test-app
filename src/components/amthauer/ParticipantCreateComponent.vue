@@ -3,7 +3,15 @@ import {AmthauerStrings} from 'components/amthauer/constants/AmthauerStrings';
 import {IParticipant} from 'components/amthauer/interfaces/IParticipant';
 import {ref, watchEffect} from 'vue';
 import {Gender} from 'components/amthauer/constants/GenderStrings';
-import {CommonStrings} from "src/constants/CommonStrings";
+import {CommonStrings} from 'src/constants/CommonStrings';
+import {useAmthauerStore} from 'stores/amthauer-store';
+import { useRouter } from 'vue-router';
+import {RoutePaths} from 'src/constants/routes';
+// import {useAuthStore} from "stores/auth-store";
+
+const router = useRouter()
+const amthauerStore = useAmthauerStore();
+// const authStore = useAuthStore();
 
 const participant = ref<IParticipant>({
   first_name: '',
@@ -15,20 +23,23 @@ const participant = ref<IParticipant>({
 });
 
 const genderOptions = [
-  {label: 'Male', value: Gender.male},
-  {label: 'Female', value: Gender.female},
-  {label: 'Other', value: Gender.other},
+  {label: 'Мужской', value: Gender.male},
+  {label: 'Женский', value: Gender.female},
+  {label: 'Другое', value: Gender.other},
 ];
 
 const selectedDate = ref<string>('');
 
 watchEffect(() => {
   // Update selectedDate whenever participant.date_of_birth changes
-  selectedDate.value = participant.value.date_of_birth || 'Date of birth';
+  selectedDate.value = participant.value.date_of_birth || AmthauerStrings.dateOfBirth;
 });
 
-const submitForm = () => {
+const onSubmit = async () => {
   console.log('participant', participant)
+  participant.value.gender = participant.value.gender?.value ?? null;
+  await amthauerStore.createParticipant(participant.value)
+  await router.push(RoutePaths.testing);
 };
 
 </script>
@@ -44,23 +55,26 @@ const submitForm = () => {
       <div class="row q-col-gutter-md">
         <div class="col-12">
 
-          <q-form @submit="submitForm" class="q-col-gutter-y-md col-12 settings_fields">
+          <q-form
+            @submit="onSubmit"
+            class="q-gutter-md "
+          >
             <q-input
               v-model="participant.first_name"
-              label="First Name"
+              label="Имя"
               required
               dense
               outlined
             />
             <q-input
               v-model="participant.last_name"
-              label="Last Name"
+              label="Фамилия"
               dense
               outlined
             />
             <q-select
               v-model="participant.gender"
-              label="Gender"
+              label="Пол"
               :options="genderOptions"
               required
               dense
@@ -70,8 +84,7 @@ const submitForm = () => {
             <q-btn
               v-model="participant.date_of_birth"
               :label="selectedDate" icon="event"
-              style="width: 100%"
-            class="mt_between_elements">
+            >
               <q-popup-proxy cover trasition-show="scale" trasition-hide="scale">
                 <q-date v-model="participant.date_of_birth" mask="YYYY-MM-DD" >
                   <q-btn v-close-popup flat :label="CommonStrings.close" />
@@ -90,14 +103,18 @@ const submitForm = () => {
             />
             <q-input
               v-model="participant.phone_number"
-              label="Phone Number"
+              label="Номер телефона"
               :clearable="true"
               required
               dense
               outlined
             />
-            <div class="mt_between_elements"/>
-            <q-btn type="submit" label="Submit"></q-btn>
+
+            <div>
+              <q-btn :label="CommonStrings.submit" type="submit" color="primary"/>
+            </div>
+
+
           </q-form>
 
         </div>
