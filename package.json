@@ -1,7 +1,7 @@
 {
-  "name": "amthauer_test_frontend",
+  "name": "amthauer_test",
   "version": "0.0.1",
-  "description": "Amthauer Intelligence Test or AIT",
+  "description": "Рудольфа Амтхауэра и тест IQ",
   "productName": "Тест Амтхауера",
   "author": "Ivan <ivan.shevchenko@webware-kassel.de>",
   "private": true,
