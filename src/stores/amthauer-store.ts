@@ -177,6 +177,6 @@ export const useAmthauerStore = defineStore('amthauer', {
       } catch (error: any) {
         await handleError(error);
       }
-    }
+    },
   }
 });

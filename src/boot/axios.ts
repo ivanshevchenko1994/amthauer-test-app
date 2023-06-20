@@ -1,6 +1,11 @@
 import axios, {AxiosError, InternalAxiosRequestConfig} from 'axios';
 import { useAuthStore } from 'src/stores/auth-store';
-import {Notify} from "quasar";
+import {Notify} from 'quasar';
+import {useRouter} from 'vue-router';
+import {RoutePaths} from "src/constants/routes";
+
+
+const router = useRouter();
 
 const api = axios.create({
   baseURL: 'https://backend-amthauer.webware-kassel.de',
@@ -32,24 +37,33 @@ api.interceptors.response.use(
     console.log('^^^^^^^^^^^^^^AXIOS ERROR CONFIG^^^^^^^^^^^^^^^^^^')
 
     if (error.response?.status === 401 && error.config) {
-      console.log('--------------CONFIG------------------')
-      Notify.create({
-        color: 'negative',
-        message: 'Неправильный Email или Пароль'
-      });
+      console.log('--------------CONFIG------------------', error)
+      console.log('--------------isRefreshing------------------', isRefreshing)
+
       const originalRequest: InternalAxiosRequestConfig = error.config;
 
       if (!isRefreshing) {
         isRefreshing = true;
+        Notify.create({
+          color: 'negative',
+          message: 'Имя пользователя или пароль неверные'
+        });
+        console.log('++++++++++++REFRESH TOKEN777 +++++++++++++');
+        await authStore.refreshTokens();
         try {
-          await authStore.refreshTokens();
+
+          console.log('++++++++++++REFRESH TOKEN1 +++++++++++++');
           const accessToken = authStore.accessToken;
           if (accessToken) {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return api.request(originalRequest);
           }
-        } catch (refreshError) {
-          console.error('Failed to refresh access token:', refreshError);
+        } catch (e: any) {
+          console.log('++++++++++++REFRESH TOKEN )))))))))))))))))))+++++++++++++');
+          console.log('Failed to refresh access token:', e);
+
+          // await router.push(RoutePaths.login);
+
         } finally {
           isRefreshing = false;
           console.log('--------------QUEU------------------')
@@ -58,6 +72,7 @@ api.interceptors.response.use(
           refreshQueue.forEach((resolve) => resolve());
           refreshQueue = [];
         }
+        console.log('++++++++++++REFRESH TOKEN )))))))))))))))))))+++++++++++++');
       } else {
         // Queue the request until the token refresh is complete
         return new Promise((resolve) => {

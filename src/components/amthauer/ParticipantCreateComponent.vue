@@ -7,6 +7,7 @@ import {CommonStrings} from 'src/constants/CommonStrings';
 import {useAmthauerStore} from 'stores/amthauer-store';
 import { useRouter } from 'vue-router';
 import {RoutePaths} from 'src/constants/routes';
+import {Notify} from "quasar";
 // import {useAuthStore} from "stores/auth-store";
 
 const router = useRouter()
@@ -38,8 +39,15 @@ watchEffect(() => {
 const onSubmit = async () => {
   console.log('participant', participant)
   participant.value.gender = participant.value.gender?.value ?? null;
-  await amthauerStore.createParticipant(participant.value)
-  await router.push(RoutePaths.testing);
+  if (!participant.value.gender || !participant.value.date_of_birth) {
+    Notify.create({
+      color: 'negative',
+      message: 'Заполните все поля'
+    });
+  } else {
+    await amthauerStore.createParticipant(participant.value)
+    await router.push(RoutePaths.testing);
+  }
 };
 
 </script>

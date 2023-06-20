@@ -3,6 +3,7 @@ import {api} from 'boot/axios';
 import {handleError} from 'src/utils/error-handle';
 import {Router} from 'vue-router';
 import {IUser} from 'components/auth/interfaces/IUser';
+import {RoutePaths} from "src/constants/routes";
 
 interface IAuthState {
   accessToken: string;
@@ -72,19 +73,22 @@ export const useAuthStore = defineStore('auth', {
           user_id: number;
         }>('/api/v1/auth/refresh_token', {
           refresh_token: this.refreshToken,
-        });
+        })
         this.accessToken = response.data.access_token;
         this.refreshToken = response.data.refresh_token;
         this.userId = response.data.user_id;
       } catch (error: any) {
-        await handleError(error, this);
+        console.log('++++++++++++++Failed to refresh tokens++++++++++++')
+        throw new Error('Failed to refresh tokens');
+        // await handleError(error, this);
       }
     },
 
     logout: async function (): Promise<void> {
       try {
-        await api.post('/api/v1/auth/logout');
+        // await api.post('/api/v1/auth/logout');
         this.clearAuthData();
+        this.router.push(RoutePaths.login)
       } catch (error: any) {
         this.clearAuthData();
         await handleError(error, this);
